@@ -7,9 +7,7 @@ client = pymongo.MongoClient("mongodb+srv://priti:priti@cluster0.i3rg0rm.mongodb
 db = client["Projectwitter"]
 records = db['scraping']
 
-
-
-
+# taking input from user
 username = st.text_input('Enter Scraped Word : ' )
 st.write('Scraped Word : ', username)
 
@@ -27,7 +25,7 @@ d2 = st.date_input(
     )
 st.write('Till Date:', d2)
 
-# st.button('Search')
+
 tweets_list2 = []
 for i, tweet in enumerate(sntwitter.TwitterSearchScraper(f'{username} since:{d1} until:{d2}').get_items()):
     if i > number:
@@ -35,15 +33,14 @@ for i, tweet in enumerate(sntwitter.TwitterSearchScraper(f'{username} since:{d1}
     tweets_list2.append([tweet.date, tweet.id, tweet.content, tweet.user.username])
 
 # Creating a dataframe from the tweets list above
-
 tweets_df2 = pd.DataFrame(tweets_list2, columns=['Datetime', 'Tweet Id', 'Text', 'Username'])
 
+# button for scraping data
 result = st.button("CLick here to see Data")
 if result:
     st.dataframe(tweets_df2)
 
-# button for scraping data
-
+#one more button for uploading data in database
 result1 = st.button("CLick here to upload Data")
 if result1:
     client = pymongo.MongoClient("mongodb+srv://priti:priti@cluster0.i3rg0rm.mongodb.net/?retryWrites=true&w=majority")
@@ -55,16 +52,7 @@ if result1:
     records.insert_one(mongo_database)
 
 
-#one more button for uploading data in database
-
-#uploaded_file = st.file_uploader("Choose a file")
-#if uploaded_file is not None:
- #   dataframe = pd.read_csv(uploaded_file)
- #   st.write(dataframe)
-
-
-
-
+#dowloading the file as CSV or JSON
 file_format = st.radio(
     "Download as ?",
     ('CSV', 'JSON'))
