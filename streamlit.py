@@ -43,9 +43,7 @@ if result:
 #one more button for uploading data in database
 result1 = st.button("CLick here to upload Data")
 if result1:
-    client = pymongo.MongoClient("mongodb+srv://priti:priti@cluster0.i3rg0rm.mongodb.net/?retryWrites=true&w=majority")
-    db = client["Projectwitter2"]
-    records = db['scraping2']
+    
     timenow = datetime.datetime.now()
     mongo_database = {"Scraped Word": username , "Scrapped Date": timenow.strftime("%Y-%m-%d"),
                       "Scrapped Data": tweets_df2.to_json()}
